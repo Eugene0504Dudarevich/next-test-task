@@ -1,92 +1,47 @@
-"use client";
+'use client';
 
-import {ChangeEvent, FC, useState} from "react";
-import { useFormStatus } from "react-dom";
-import { addTask, updateTask } from "@/app/actions";
-import useTaskDetails from "@/app/hooks/useTaskDetails";
-
-export type FormState = {
-  title: string;
-  dueDate: string;
-};
-
-const initialState: FormState = {
-  title: '',
-  dueDate: '',
-};
-
-function useFormState<T> (submitAction: (formData: FormData, taskId?: string) => void, initialState: T) {
-  const [formState, setFormState] = useState<T>(initialState);
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormState(previousState => ({ ...previousState, [name]: value }));
-  };
-
-  const formAction = (formData: FormData, taskId?: string) => {
-    submitAction(formData, taskId);
-  };
-
-  return [ formAction, handleChange, formState, setFormState ] as const;
-}
-
-type SubmitButtonProps = {
-  taskId?: string;
-};
-
-const SubmitButton: FC<SubmitButtonProps> = ({ taskId }) => {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      type="submit"
-      className="w-full p-2 rounded-md bg-gray-800 border border-gray-700 focus:border-white focus:outline-none focus:ring-1 focus:ring-white"
-      aria-disabled={pending}
-    >
-      {taskId ? 'Update Task' : 'Add Task'}
-    </button>
-  );
-};
+import { FC } from 'react';
+import { addTask } from '../actions';
+import { Task as TaskType } from '../types';
 
 export type AddTaskFormProps = {
-  taskId?: string;
+  task?: TaskType;
   setEditMode?: (editMode: boolean) => void;
 };
 
-const AddTaskForm: FC<AddTaskFormProps> = ({ taskId, setEditMode }) => {
-  const { taskDetails } = useTaskDetails(taskId ? taskId : null);
-
-  const [formAction, handleChange, formState, setFormState] = useFormState<FormState>(taskId ? updateTask : addTask, initialState);
-
-  const handleSubmit = (formData: FormData) => {
-    if (!formData.get('title')) return;
-
-    formAction(formData, taskId);
-
-    if (taskId && setEditMode) {
-      setEditMode(false);
-    }
-
-    resetForm();
-  };
-
-  const resetForm = () => {
-    setFormState(initialState);
-  };
-
+const AddTaskForm: FC<AddTaskFormProps> = ({ task }) => {
   return (
     <div className="flex justify-center items-center bg-gray-900">
       <div className="max-w-xl mx-auto w-full">
-        <h1 className="text-4xl font-bold my-5">{taskId ? 'Update task' : 'Add a new task'}</h1>
-        <form action={handleSubmit} className="space-y-4">
+        <h1 className="text-4xl font-bold my-5">
+          {task ? 'Update task' : 'Add a new task'}
+        </h1>
+        <form
+          action={addTask}
+          className="space-y-4"
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.currentTarget.submit();
+            if (!task) e.currentTarget.reset();
+          }}
+        >
+          {task?.id && (
+            <input type="hidden" name="id" defaultValue={task?.id} />
+          )}
+          <input
+            type="hidden"
+            name="isDone"
+            defaultValue={task?.isDone ? 'on' : 'off'}
+          />
           <div>
             <label htmlFor="task" className="block text-sm font-medium mb-1">
               Task:
             </label>
             <input
-              value={formState.title || (taskDetails?.title ?? '')}
+              defaultValue={task?.title || ''}
               name="title"
-              onChange={handleChange}
+              minLength={3}
+              required
               placeholder="Task Title"
               className="w-full mx-auto p-2 rounded-md bg-gray-800 border border-gray-700 focus:border-white focus:outline-none focus:ring-1 focus:ring-white"
             />
@@ -96,14 +51,18 @@ const AddTaskForm: FC<AddTaskFormProps> = ({ taskId, setEditMode }) => {
               Due Date:
             </label>
             <input
-              value={formState.dueDate || (taskDetails?.dueDate ?? '')}
+              defaultValue={task?.dueDate}
               type="date"
               name="dueDate"
-              onChange={handleChange}
               className="w-full p-2 rounded-md bg-gray-800 border border-gray-700 focus:border-white focus:outline-none focus:ring-1 focus:ring-white"
             />
           </div>
-          <SubmitButton taskId={taskId} />
+          <button
+            type="submit"
+            className="w-full p-2 rounded-md bg-gray-800 border border-gray-700 focus:border-white focus:outline-none focus:ring-1 focus:ring-white"
+          >
+            {task ? 'Update Task' : 'Add Task'}
+          </button>
         </form>
       </div>
     </div>

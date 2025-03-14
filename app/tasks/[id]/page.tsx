@@ -1,53 +1,32 @@
-"use client";
+import { FC } from 'react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import AddTaskForm from '@/app/components/AddTaskForm';
 
-import {useRouter, usePathname} from "next/navigation";
-import { FC, useState } from "react";
-import useTaskDetails from "@/app/hooks/useTaskDetails";
-import AddTaskForm from "@/app/components/AddTaskForm";
+const TaskDetails: FC<{ params: { id: string } }> = async ({ params }) => {
+  const { id } = params;
 
-const TaskDetails: FC = () => {
-  const [editMode, setEditMode] = useState(false);
+  const task = await fetch(`http://localhost:3001/tasks/${id}`).then((res) => {
+    if (!res.ok) {
+      notFound();
+    }
 
-  const pathName = usePathname();
-  const router = useRouter();
-
-  const getTaskId = () => {
-    const routeParts = pathName.split("/");
-    return routeParts.at(-1) as string;
-  };
-
-  const taskId = getTaskId();
-  const { taskDetails } = useTaskDetails(taskId);
-
-  const onBackClick = () => {
-    router.replace("/");
-  }
-
-  const onEditClick = () => {
-    setEditMode(true);
-  };
+    return res.json();
+  });
 
   return (
     <>
-      {taskDetails && (
-        <>
-        {!editMode && (
-          <div className="max-w-xl mx-auto pt-10">
-            <button className="mb-7" onClick={onBackClick}>Back to main page</button>
-            <h1 className="text-7xl font-bold mb-5">{taskDetails.title}</h1>
-            <h4 className="text-4xl mb-5">Due date: {taskDetails.dueDate}</h4>
-            <h4 className="text-4xl mb-5">Status: {taskDetails.isDone ? 'Completed' : 'Not completed'}</h4>
-            <button
-              className="w-1/4 p-2 rounded-md bg-gray-800 border border-gray-700 focus:border-white focus:outline-none focus:ring-1 focus:ring-white"
-              onClick={onEditClick}
-            >
-              Edit
-            </button>
-          </div>
-        )}
-          {editMode && <AddTaskForm taskId={taskId} setEditMode={setEditMode} />}
-        </>
-      )}
+      <div className="max-w-xl mx-auto pt-10">
+        <Link href="/">
+          <button className="mb-7">Back to main page</button>
+        </Link>
+        <h1 className="text-7xl font-bold mb-5">{task.title}</h1>
+        <h4 className="text-4xl mb-5">Due date: {task.dueDate}</h4>
+        <h4 className="text-4xl mb-5">
+          Status: {task.isDone === 'on' ? 'Completed' : 'Not completed'}
+        </h4>
+      </div>
+      <AddTaskForm task={task} />
     </>
   );
 };
