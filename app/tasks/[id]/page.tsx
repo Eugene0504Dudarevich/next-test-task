@@ -20,10 +20,10 @@ const TaskDetails: FC<{ params: { id: string } }> = async ({ params }) => {
         <Link href="/">
           <button className="mb-7">Back to main page</button>
         </Link>
-        <h1 className="text-7xl font-bold mb-5">{task.title}</h1>
+        <h1 className="text-6xl font-bold mb-5">{task.title}</h1>
         <h4 className="text-4xl mb-5">Due date: {task.dueDate}</h4>
         <h4 className="text-4xl mb-5">
-          Status: {task.isDone === 'on' ? 'Completed' : 'Not completed'}
+          Status: {task.isDone ? 'Completed' : 'Not completed'}
         </h4>
       </div>
       <AddTaskForm task={task} />

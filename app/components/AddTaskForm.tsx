@@ -1,15 +1,16 @@
 'use client';
 
-import { FC } from 'react';
+import { FC, useRef } from 'react';
 import { addTask } from '../actions';
 import { Task as TaskType } from '../types';
 
 export type AddTaskFormProps = {
   task?: TaskType;
-  setEditMode?: (editMode: boolean) => void;
 };
 
 const AddTaskForm: FC<AddTaskFormProps> = ({ task }) => {
+  const formRef = useRef<HTMLFormElement>(null);
+
   return (
     <div className="flex justify-center items-center bg-gray-900">
       <div className="max-w-xl mx-auto w-full">
@@ -17,22 +18,25 @@ const AddTaskForm: FC<AddTaskFormProps> = ({ task }) => {
           {task ? 'Update task' : 'Add a new task'}
         </h1>
         <form
-          action={addTask}
-          className="space-y-4"
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.currentTarget.submit();
-            if (!task) e.currentTarget.reset();
+          ref={formRef}
+          action={async (formData) => {
+            await addTask(formData);
+            if (!task) {
+              formRef.current?.reset();
+            }
           }}
+          className="space-y-4"
         >
           {task?.id && (
             <input type="hidden" name="id" defaultValue={task?.id} />
           )}
-          <input
-            type="hidden"
-            name="isDone"
-            defaultValue={task?.isDone ? 'on' : 'off'}
-          />
+          {task && (
+            <input
+              type="hidden"
+              name="isDone"
+              defaultValue={task.isDone ? 'on' : 'off'}
+            />
+          )}
           <div>
             <label htmlFor="task" className="block text-sm font-medium mb-1">
               Task:

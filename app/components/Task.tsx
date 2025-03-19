@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 export const Task: FC<{ task: TaskType }> = ({ task }) => {
   return (
-    <li className="bg-gray-800 p-4 rounded-lg mb-2 flex items-center cursor-pointer">
+    <li className="bg-gray-800 p-4 rounded-lg mb-2 flex items-center">
       <form action={toggleTask}>
         <input type="hidden" name="id" value={task.id} />
         <input

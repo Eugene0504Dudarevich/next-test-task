@@ -1,5 +1,5 @@
-import TasksList from "./components/TasksList";
 import AddTaskForm from "./components/AddTaskForm";
+import TasksList from "./components/TasksList";
 
 export default function Home() {
   return (

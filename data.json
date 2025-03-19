@@ -1,82 +1,46 @@
 {
   "tasks": [
     {
-      "id": "3235",
-      "title": "dfghdgnjterg",
-      "dueDate": "",
+      "id": "980c",
+      "title": "test task 346",
+      "dueDate": "2025-03-27",
+      "isDone": true
+    },
+    {
+      "id": "e527",
+      "title": "Test Task 358",
+      "dueDate": "2025-03-26",
+      "isDone": true
+    },
+    {
+      "id": "786a",
+      "title": "Test task 29",
+      "dueDate": "2025-05-04",
       "isDone": null
     },
     {
-      "id": "3d8c",
-      "title": "dfghdgnjter",
-      "dueDate": "",
+      "id": "f3cd",
+      "title": "Test task 30",
+      "dueDate": "2025-03-29",
+      "isDone": null
+    },
+    {
+      "id": "0e27",
+      "title": "Test task 123",
+      "dueDate": "2025-03-05",
+      "isDone": null
+    },
+    {
+      "id": "53b7",
+      "title": "Test task 666",
+      "dueDate": "2025-03-29",
       "isDone": "on"
     },
     {
-      "id": "9167",
-      "title": "dfghdgnjte",
-      "dueDate": "",
-      "isDone": "on"
-    },
-    {
-      "id": "97f3",
-      "title": "dfghdgnjt",
-      "dueDate": "",
-      "isDone": null
-    },
-    {
-      "id": "788d",
-      "title": "dfghdgnj",
-      "dueDate": "",
-      "isDone": "on"
-    },
-    {
-      "id": "2f80",
-      "title": "dfghdgn",
-      "dueDate": "",
-      "isDone": "on"
-    },
-    {
-      "id": "0324",
-      "title": "dfghdg",
-      "dueDate": "",
-      "isDone": null
-    },
-    {
-      "id": "a844",
-      "title": "dfghd",
-      "dueDate": "",
-      "isDone": null
-    },
-    {
-      "id": "c73c",
-      "title": "regtb",
-      "dueDate": "",
-      "isDone": "off"
-    },
-    {
-      "id": "79cd",
-      "title": "werty34253t",
-      "dueDate": "",
-      "isDone": "off"
-    },
-    {
-      "id": "d4a1",
-      "title": "123456",
-      "dueDate": "",
-      "isDone": null
-    },
-    {
-      "id": "a039",
-      "title": "wertyjkujghfdfs4536457687",
-      "dueDate": "",
-      "isDone": "on"
-    },
-    {
-      "id": "4d38",
-      "title": "weretrytu",
-      "dueDate": "",
-      "isDone": null
+      "id": "ada0",
+      "title": "Test task title 05",
+      "dueDate": "2025-04-18",
+      "isDone": false
     }
   ]
 }
